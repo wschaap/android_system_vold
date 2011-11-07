@@ -554,7 +554,9 @@ int Volume::doUnmount(const char *path, bool force) {
     }
 
     while (retries--) {
-        if (!umount(path) || errno == EINVAL || errno == ENOENT) {
+        // EIO is not listed in man 2 umount.
+        // but it does get returned if the underlaying fs is gone (such as a dm target that was removed)
+        if (!umount(path) || errno == EINVAL || errno == ENOENT || errno == EIO) {
             SLOGI("%s sucessfully unmounted", path);
             return 0;
         }
