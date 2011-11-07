@@ -554,7 +554,7 @@ int Volume::doUnmount(const char *path, bool force) {
     }
 
     while (retries--) {
-        // EIO is not listed in man 2 umount.
+        // EIO is not listed in man 2 umount,
         // but it does get returned if the underlaying fs is gone (such as a dm target that was removed)
         if (!umount(path) || errno == EINVAL || errno == ENOENT || errno == EIO) {
             SLOGI("%s sucessfully unmounted", path);
@@ -699,10 +699,8 @@ int Volume::initializeMbr(const char *deviceNode) {
 
     if (rc) {
         SLOGE("Failed to apply disk configuration (%d)", rc);
-        goto out;
     }
 
- out:
     free(pinfo->name);
     free(dinfo.device);
     free(dinfo.part_lst);
