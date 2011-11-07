@@ -54,12 +54,12 @@ int Fat::check(const char *fsPath) {
     int pass = 1;
     int rc = 0;
     do {
-        const char *args[5];
+        const char *args[4];
         args[0] = FSCK_MSDOS_PATH;
         args[1] = "-p";
         args[2] = "-f";
         args[3] = fsPath;
-        args[4] = NULL;
+    
 
         enum { FS_OK, FS_FIXED, FS_MISMATCH, FS_ERROR } status = FS_ERROR;
 
@@ -81,7 +81,6 @@ int Fat::check(const char *fsPath) {
             args[1] = "-p";
             args[2] = "-f";
             args[3] = fsPath;
-            args[4] = NULL;
             rc = logwrap(4, args, 1);
             if (rc == 0) {
                 // if rc is 0, the check was ok
@@ -219,11 +218,11 @@ int Fat::format(const char *fsPath, unsigned int numSectors) {
         args[7] = "-s";
         args[8] = size;
         args[9] = fsPath;
-        args[10] = NULL;
+       
         rc = logwrap(11, args, 1);
     } else {
         args[7] = fsPath;
-        args[8] = NULL;
+       
         rc = logwrap(9, args, 1);
     }
 
